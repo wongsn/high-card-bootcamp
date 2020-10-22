@@ -1,1 +1,1 @@
-console.log('yay!');
+// Please implement High Card logic here
