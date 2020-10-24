@@ -1,1 +1,1 @@
-// Please implement High Card logic here
+// Please implement exercise logic here
