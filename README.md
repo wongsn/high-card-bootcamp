@@ -1,3 +1,1 @@
-# Rocket Academy Coding Bootcamp
-
-## High Card
+# Rocket Academy Coding Bootcamp: High Card
