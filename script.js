@@ -141,6 +141,7 @@ const player1Click = () => {
   if (playersTurn === 1) {
     // getting player 1's card
     player1Card = deck.pop();
+
     // Create card element from card metadata
     const cardElement = createCard(player1Card);
     // Empty cardContainer in case this is not the 1st round of gameplay
