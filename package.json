@@ -1,5 +1,5 @@
 {
-  "name": "high-card-swe1",
+  "name": "high-card-bootcamp",
   "version": "1.0.0",
   "description": "SWE1 High Card",
   "main": "script.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rocketacademy/high-card-swe1.git"
+    "url": "git+https://github.com/rocketacademy/high-card-bootcamp.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rocketacademy/high-card-swe1/issues"
+    "url": "https://github.com/rocketacademy/high-card-bootcamp/issues"
   },
-  "homepage": "https://github.com/rocketacademy/high-card-swe1#readme",
+  "homepage": "https://github.com/rocketacademy/high-card-bootcamp#readme",
   "devDependencies": {
     "eslint": "^7.6.0",
     "eslint-config-airbnb-base": "^14.2.0",
