@@ -117,21 +117,13 @@ const output = (message) => {
   gameInfo.innerText = message;
 };
 
-// helper function for getting 3 cards from the deck 
-const getPlayerHand = (playerHand) => {
-    for (let i = 0; i < 3; i += 1) {
-    playerCard = deck.pop();
-    playerHand.push(playerCard);
-    }
-}
-
 /*####################
 ## GLOBAL VARIABLES ##
 ####################*/
 const deck = shuffleCards(makeDeck());
 
 let playersTurn = 1; // matches with starting instructions
-// let player1Card;
+let player1Card;
 
 let cardContainer;
 
@@ -147,10 +139,8 @@ const gameInfo = document.createElement('div');
 ###########################*/
 const player1Click = () => {
   if (playersTurn === 1) {
-    // getting player 1's hand
-    let player1Hand = [];
-    getPlayerHand(player1Hand);
-    console.log('player 1 hand', player1Hand);
+    // getting player 1's card
+    player1Card = deck.pop();
     // Create card element from card metadata
     const cardElement = createCard(player1Card);
     // Empty cardContainer in case this is not the 1st round of gameplay
@@ -163,10 +153,8 @@ const player1Click = () => {
 
 const player2Click = () => {
   if (playersTurn === 2) {
-     // getting player 2's hand
-    let player2Hand = [];
-    getPlayerHand(player2Hand);
-    console.log('player 2 hand', player2Hand);
+     const player2Card = deck.pop();
+    
     // Create card element from card metadata
     const cardElement = createCard(player2Card);    
     // Append card element to card container
