@@ -113,10 +113,9 @@ const createCard = (cardInfo) => {
 };
 
 // helper function for getting and displaying player cards
-const getAndDisplayPlayerHand = (numCards, playerHand, playerHandElements, cardContainer) => {
-  if (playerHand.length < numCards) {
-    const playerCard = deck.pop();
-    playerHand.push(playerCard);
+const displayPlayerHand = (playerCard, numCards, playerHand, playerHandElements, cardContainer) => {
+  if (playerHand.length <= numCards) {
+    
     const cardElement = createCard(playerCard);
     playerHandElements.push(cardElement);
 
@@ -125,7 +124,9 @@ const getAndDisplayPlayerHand = (numCards, playerHand, playerHandElements, cardC
 }
 
 // helper function for getting the highest ranking card 
-const getHighCard = (playerHand) => {
+const getHighCard = (playerHand, numCards) => {
+  console.log(playerHand.length);
+  console.log(numCards);
   if ( playerHand.length === numCards) {
     const cardRanks = [];
     playerHand.forEach((card) => {
@@ -138,7 +139,7 @@ const getHighCard = (playerHand) => {
   }
 }
 
-const determineAndDisplayWinner = (player1Hand, player2Hand, numCards) => {
+const determineAndDisplayWinner = (player1Hand, player2Hand, numCards, player1HighCard, player2HighCard) => {
   if (player1Hand.length === numCards && player2Hand.length === numCards) {
     // highest card win
     if (player1HighCard > player2HighCard) {
@@ -204,15 +205,25 @@ const inputBtnClick = () => {
 }
 
 const player1Click = () => {
-  getAndDisplayPlayerHand(numCards, player1Hand, player1HandElements, cardContainer1);
-  player1HighCard = getHighCard(player1Hand);
-  determineAndDisplayWinner(player1Hand, player2Hand, numCards);
+  // get player's card from deck
+  const playerCard = deck.pop();
+  // add card to player's current hand
+  player1Hand.push(playerCard);
+  // call the function that displays the player's card
+  displayPlayerHand(playerCard, numCards, player1Hand, player1HandElements, cardContainer1);
+  // call the function that finds the highest rank of all the player's cards 
+  player1HighCard = getHighCard(player1Hand, numCards);
+  // call the function that will determine the winner based on who has the highest ranking card
+  // if all cards have been drawn 
+  determineAndDisplayWinner(player1Hand, player2Hand, numCards, player1HighCard, player2HighCard);
 };
 
 const player2Click = () => {
-  getAndDisplayPlayerHand(numCards, player2Hand, player2HandElements, cardContainer2);
-  player2HighCard = getHighCard(player2Hand);
-  determineAndDisplayWinner(player1Hand, player2Hand, numCards);
+  const playerCard = deck.pop();
+  player2Hand.push(playerCard);
+  displayPlayerHand(playerCard, numCards, player2Hand, player2HandElements, cardContainer2);
+  player2HighCard = getHighCard(player2Hand, numCards);
+  determineAndDisplayWinner(player1Hand, player2Hand, numCards, player1HighCard, player2HighCard);
 };
 
 /*#######################
