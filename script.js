@@ -113,10 +113,10 @@ const createCard = (cardInfo) => {
 };
 
 // helper function for getting and displaying player cards
-const getAndDisplayPlayerHand = (sortedHand, playerHand, playerHandElements, cardContainer) => {
+const getAndDisplayPlayerHand = (CARDS_PER_HAND, sortedHand, playerHand, playerHandElements, cardContainer) => {
   // getting card data of player 1's hand
   // this could be any number, does not specifically have to be 3
-  for (let i = 0; i < 3; i += 1) {
+  for (let i = 0; i < CARDS_PER_HAND; i += 1) {
     playerHand.push(deck.pop());
   }
 
@@ -175,7 +175,8 @@ const output = (message) => {
 ## GLOBAL VARIABLES ##
 ####################*/
 const deck = shuffleCards(makeDeck());
-
+// we are setting the number of cards in the player's hand here
+const CARDS_PER_HAND = 4;
 let playersTurn = 1; // matches with starting instructions
 let player1Hand = [];
 let player1HandElements = [];
@@ -211,7 +212,7 @@ const player1Click = () => {
     cardContainer2.innerHTML = '';
 
     // call the function that will get and display player 1's hand
-    getAndDisplayPlayerHand(sortedHand1, player1Hand, player1HandElements, cardContainer1);
+    getAndDisplayPlayerHand(CARDS_PER_HAND, sortedHand1, player1Hand, player1HandElements, cardContainer1);
     cardDifference1 = getCardDifference(sortedHand1);
     playersTurn = 2;
     gameInfo.innerText = 'Player 2\'s turn';
@@ -220,7 +221,7 @@ const player1Click = () => {
 
 const player2Click = () => {
   if (playersTurn === 2) {
-    getAndDisplayPlayerHand(sortedHand2, player2Hand, player2HandElements, cardContainer2);
+    getAndDisplayPlayerHand(CARDS_PER_HAND, sortedHand2, player2Hand, player2HandElements, cardContainer2);
     const cardDifference2 = getCardDifference(sortedHand2);
 
     // logic that determines winner. Bigger cardDifference wins
