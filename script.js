@@ -113,10 +113,10 @@ const createCard = (cardInfo) => {
 };
 
 // helper function for getting and displaying player cards
-const getAndDisplayPlayerHand = (playerHand, playerHandElements, cardContainer) => {
+const getAndDisplayPlayerHand = (NUM_OF_CARDS, playerHand, playerHandElements, cardContainer) => {
   // getting card data of player 1's hand
   // this could be any number, does not specifically have to be 3
-  for (let i = 0; i < 3; i += 1) {
+  for (let i = 0; i < NUM_OF_CARDS; i += 1) {
     playerHand.push(deck.pop());
   }
 
@@ -160,7 +160,8 @@ const output = (message) => {
 ## GLOBAL VARIABLES ##
 ####################*/
 const deck = shuffleCards(makeDeck());
-
+// we set the number of cards in the player's hand here
+const NUM_OF_CARDS = 3
 let playersTurn = 1; // matches with starting instructions
 let player1Hand = [];
 let player1HandElements = [];
@@ -185,9 +186,14 @@ const player1Click = () => {
     // Empty cardContainer in case this is not the 1st round of gameplay
     cardContainer1.innerHTML = '';
     cardContainer2.innerHTML = '';
+    // clear relevant data from previous game
+    player1Hand = [];
+    player1HandElements = [];
+    player2Hand = [];
+    player2HandElements = [];
 
     // call the function that will get and display player 1's hand
-    getAndDisplayPlayerHand(player1Hand, player1HandElements, cardContainer1);
+    getAndDisplayPlayerHand(NUM_OF_CARDS, player1Hand, player1HandElements, cardContainer1);
     cardDifference1 = getCardDifference(player1Hand);
     playersTurn = 2;
     gameInfo.innerText = 'Player 2\'s turn';
@@ -196,7 +202,7 @@ const player1Click = () => {
 
 const player2Click = () => {
   if (playersTurn === 2) {
-    getAndDisplayPlayerHand(player2Hand, player2HandElements, cardContainer2);
+    getAndDisplayPlayerHand(NUM_OF_CARDS, player2Hand, player2HandElements, cardContainer2);
     const cardDifference2 = getCardDifference(player2Hand);
 
     // logic that determines winner. Bigger cardDifference wins
