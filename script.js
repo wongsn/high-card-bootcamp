@@ -1,5 +1,4 @@
 // Please implement exercise logic here
-// Please implement exercise logic here
 /*####################
 ## HELPER FUNCTIONS ##
 ####################*/
