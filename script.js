@@ -139,7 +139,7 @@ const getHighCard = (playerHand) => {
   }
 }
 
-const determineWinner = () => {
+const determineAndDisplayWinner = (player1Hand, player2Hand, numCards) => {
   if (player1Hand.length === numCards && player2Hand.length === numCards) {
     // highest card win
     if (player1HighCard > player2HighCard) {
@@ -207,13 +207,13 @@ const inputBtnClick = () => {
 const player1Click = () => {
   getAndDisplayPlayerHand(numCards, player1Hand, player1HandElements, cardContainer1);
   player1HighCard = getHighCard(player1Hand);
-  determineWinner();
+  determineAndDisplayWinner(player1Hand, player2Hand, numCards);
 };
 
 const player2Click = () => {
   getAndDisplayPlayerHand(numCards, player2Hand, player2HandElements, cardContainer2);
   player2HighCard = getHighCard(player2Hand);
-  determineWinner();
+  determineAndDisplayWinner(player1Hand, player2Hand, numCards);
 };
 
 /*#######################
