@@ -100,7 +100,7 @@ inputContainer.appendChild(player2Button);
 
 const gameInfo = document.createElement('div');
 gameInfo.classList.add('gameInfo');
-gameInfo.innerText = 'Its player 1 turn. Click to draw a card!';
+gameInfo.innerText = 'Input a number, and click on player to start game.';
 inputContainer.appendChild(gameInfo);
 
 // Create a helper function for output to abstract complexity
@@ -214,6 +214,7 @@ const player1Click = () => {
   if (cardsToBeDrawn == 0) {
     output('Input number of cards to be drawn');
   } else if (playersTurn === 0) {
+    output('Player 1 draws...');
     document.getElementById('input').disabled = true;
     player1Container.innerText = '';
     player2Container.innerText = '';
@@ -247,6 +248,7 @@ const player2Click = () => {
   if (cardsToBeDrawn == 0) {
     output('Input number of cards to be drawn');
   } else if (playersTurn === 0) {
+    output('Player 2 draws...');
     document.getElementById('input').disabled = true;
     player1Container.innerText = '';
     player2Container.innerText = '';

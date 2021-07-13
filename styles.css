@@ -58,10 +58,12 @@ body {
 
 .player-1-hand {
   align-items: center;
+  min-height: 112px;
 }
 
 .player-2-hand {
   align-items: center;
+  min-height: 112px;
 }
 
 .card-container {
