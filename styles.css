@@ -1,13 +1,14 @@
 body {
   background: pink;
+  text-align: center;
 }
 
 .card {
-  margin: 10px;
-  padding: 10px;
-  background: grey;
+  margin: 1px;
+  padding: 0px;
+  background: white;
   width: 50px;
-  text-align: center;
+  text-align: left;
   border-radius: 8px;
   display: inline-block;
 }
@@ -34,8 +35,23 @@ body {
 
 .gameInfo {
   background-color: rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 200px;
-  margin: 0px;
-  align: left;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.player-1-hand {
+  display: inline-block;
+  margin: 20px 20px 20px 20px;
+}
+
+.player-2-hand {
+  display: inline-block;
+  margin: 20px 20px 20px 20px;
+}
+
+.card-container {
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  width: 50%;
 }

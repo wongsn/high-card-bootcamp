@@ -1,4 +1,5 @@
-// High Card is a card game where each player draws a random card, and the player with the highest card wins.
+// High Card is a card game where each player draws a
+// random card, and the player with the highest card wins.
 
 // Get a random index ranging from 0 (inclusive) to max (exclusive).
 const getRandomIndex = (max) => Math.floor(Math.random() * max);
@@ -83,14 +84,23 @@ let playersTurn = 1;
 
 // Use let for player1Card object because player1Card will be reassigned
 let player1Card;
+let player1Hand = [];
+let player2Card;
+let player2Hand = [];
 
-const player1Button = document.createElement('button');
-player1Button.innerText = 'Player 1 Draw';
-document.body.appendChild(player1Button);
+const player1Draw = document.createElement('button');
+player1Draw.innerText = 'Player 1 Draw';
+document.body.appendChild(player1Draw);
+const player1Stand = document.createElement('button');
+player1Stand.innerText = 'Player 1 Stand';
+document.body.appendChild(player1Stand);
 
-const player2Button = document.createElement('button');
-player2Button.innerText = 'Player 2 Draw';
-document.body.appendChild(player2Button);
+const player2Draw = document.createElement('button');
+player2Draw.innerText = 'Player 2 Draw';
+document.body.appendChild(player2Draw);
+const player1Stand = document.createElement('button');
+player2Stand.innerText = 'Player 2 Stand';
+document.body.appendChild(player2Stand);
 
 const gameInfo = document.createElement('div');
 gameInfo.classList.add('gameInfo');
@@ -100,7 +110,7 @@ document.body.appendChild(gameInfo);
 // Create a helper function for output to abstract complexity
 // of DOM manipulation away from game logic
 const output = (message) => {
-  gameInfo.innerText = message;
+  gameInfo.innerHTML = message;
 };
 
 const createCard = (cardInfo) => {
@@ -121,64 +131,95 @@ const createCard = (cardInfo) => {
   return card;
 };
 
-let cardContainer;
-cardContainer = document.createElement('div');
+const cardContainer = document.createElement('div');
 cardContainer.classList.add('card-container');
+const player1Container = document.createElement('div');
+player1Container.classList.add('player-1-hand');
+cardContainer.appendChild(player1Container);
+const player2Container = document.createElement('div');
+player2Container.classList.add('player-2-hand');
+cardContainer.appendChild(player2Container);
 document.body.insertBefore(cardContainer, player1Button);
 
-const player1Click = () => {
-  if (playersTurn === 1) {
+const player1Draw = () => {
+    output('Player 1 draws');
     // Pop player 1's card metadata from the deck
     if (deck.length === 0) {
       deck = shuffleCards(makeDeck());
-      player1Card = deck.pop();
-      // Create card element from card metadata
-      const cardElement = createCard(player1Card);
-      // Empty cardContainer in case this is not the 1st round of gameplay
-      cardContainer.innerHTML = '';
-      // Append the card element to the card container
-      cardContainer.appendChild(cardElement);
-
-      // Switch to player 2's turn
-      playersTurn = 2;
-      output('End of Deck. Deck has be reshuffled and dealt.');
-    } player1Card = deck.pop();
-
+    } 
+    
+    player1Card = deck.pop();
+    player1Hand.push(player1Card);
     // Create card element from card metadata
     const cardElement = createCard(player1Card);
     // Empty cardContainer in case this is not the 1st round of gameplay
-    cardContainer.innerHTML = '';
+    player1Container.innerHTML = '';
+    player2Container.innerHTML = '';
     // Append the card element to the card container
     cardContainer.appendChild(cardElement);
+};
 
-    // Switch to player 2's turn
-    playersTurn = 2;
+const highestDiff = (playerHand) => {
+  const rankArray = [];
+  for (let i = 0; i < playerHand.length; i += 1) {
+    rankArray[i] = playerHand[i].rank;
   }
+  const max = Math.max(...rankArray);
+  const min = Math.min(...rankArray);
+
+  return max - min;
 };
 
 const player2Click = () => {
   if (playersTurn === 2) {
+    output('Turn 2. Player 2 draws');
     // Pop player 2's card metadata from the deck
-    const player2Card = deck.pop();
+    player2Card = deck.pop();
+    player2Hand.push(player2Card);
+    // Create card element from card metadata
+    const cardElement = createCard(player2Card);
+    // Append card element to card container
+    player2Container.appendChild(cardElement);
+
+    // Switch to player 1's turn
+    playersTurn += 1;
+  } else if (playersTurn === 4) {
+    // Pop player 2's card metadata from the deck
+    player2Card = deck.pop();
+    player2Hand.push(player2Card);
 
     // Create card element from card metadata
     const cardElement = createCard(player2Card);
     // Append card element to card container
-    cardContainer.appendChild(cardElement);
+    player2Container.appendChild(cardElement);
 
-    // Switch to player 1's turn
+    // Reset play
     playersTurn = 1;
 
     // Determine and output winner
-    if (player1Card.rank > player2Card.rank) {
-      output('Player 1 wins');
-    } else if (player1Card.rank < player2Card.rank) {
-      output('Player 2 wins');
+    if (highestDiff(player1Hand) > highestDiff(player2Hand)) {
+      const winningDiff = highestDiff(player1Hand);
+      player1Hand = [];
+      player2Hand = [];
+      output(`Player 1 wins, with a card difference of ${winningDiff}.`);
+      gameInfo.innerHTML += '<br>Click to play again';
+    } else if (highestDiff(player1Hand) < highestDiff(player2Hand)) {
+      const winningDiff = highestDiff(player2Hand);
+      player1Hand = [];
+      player2Hand = [];
+      output(`Player 2 wins, with a card difference of ${winningDiff}.`);
+      gameInfo.innerHTML += '<br>Click to play again';
     } else {
-      output('Tie');
+      player1Hand = [];
+      player2Hand = [];
+      output('Tie!');
+      gameInfo.innerHTML += '<br>Click to play again';
     }
   }
 };
 
-player1Button.addEventListener('click', player1Click);
-player2Button.addEventListener('click', player2Click);
+player1Draw.addEventListener('click', player1Draw);
+player2Draw.addEventListener('click', player2Draw);
+
+player1Draw.addEventListener('click', player1Stand);
+player2Draw.addEventListener('click', player2Stand);
