@@ -76,7 +76,7 @@ const makeDeck = () => {
   return newDeck;
 };
 
-let deck = shuffleCards(makeDeck());
+const deck = shuffleCards(makeDeck());
 
 // Player 1 starts first
 let playersTurn = 1;
@@ -91,6 +91,14 @@ document.body.appendChild(player1Button);
 const player2Button = document.createElement('button');
 player2Button.innerText = 'Player 2 Draw';
 document.body.appendChild(player2Button);
+
+const inputNum = document.createElement('input');
+inputNum.setAttribute('id', 'input');
+inputNum.setAttribute('type', 'number');
+inputNum.setAttribute('min', '2');
+inputNum.setAttribute('max', '26');
+const cardsToBeDrawn = document.querySelector('#input');
+document.body.appendChild(inputNum);
 
 const gameInfo = document.createElement('div');
 gameInfo.classList.add('gameInfo');
@@ -129,8 +137,7 @@ document.body.insertBefore(cardContainer, player1Button);
 const player1Click = () => {
   if (playersTurn === 1) {
     // Pop player 1's card metadata from the deck
-    if (deck.length === 0) {
-      deck = shuffleCards(makeDeck());
+    for (let i = 0; i < cardsToBeDrawn; i += 1) {
       player1Card = deck.pop();
       // Create card element from card metadata
       const cardElement = createCard(player1Card);
@@ -138,21 +145,11 @@ const player1Click = () => {
       cardContainer.innerHTML = '';
       // Append the card element to the card container
       cardContainer.appendChild(cardElement);
-
-      // Switch to player 2's turn
-      playersTurn = 2;
-      output('End of Deck. Deck has be reshuffled and dealt.');
-    } player1Card = deck.pop();
-
-    // Create card element from card metadata
-    const cardElement = createCard(player1Card);
-    // Empty cardContainer in case this is not the 1st round of gameplay
-    cardContainer.innerHTML = '';
-    // Append the card element to the card container
-    cardContainer.appendChild(cardElement);
-
+    }
     // Switch to player 2's turn
     playersTurn = 2;
+  } else {
+
   }
 };
 
