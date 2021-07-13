@@ -1,15 +1,32 @@
 body {
   background: pink;
+  justify-content: center;
+}
+
+#header {
+  text-align: center;
 }
 
 .card {
   margin: 10px;
   padding: 10px;
-  background: grey;
+  background: white;
   width: 50px;
-  text-align: center;
+  text-align: left;
   border-radius: 8px;
   display: inline-block;
+}
+
+.highlight {
+  margin: 10px;
+  padding: 10px;
+  background: white;
+  width: 50px;
+  text-align: left;
+  border-radius: 8px;
+  display: inline-block;
+  border: solid;
+  border-color: gold;
 }
 
 .suit {
@@ -35,6 +52,35 @@ body {
 .gameInfo {
   background-color: rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-width: 200px;
-  margin: 0px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.player-1-hand {
+  align-items: center;
+}
+
+.player-2-hand {
+  align-items: center;
+}
+
+.card-container {
+  border-radius: 8px;
+  display: flex;
+  background: rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  align-items: center;
+  min-height: 220px;
+  min-width: 500px;
+  margin: 0 auto;
+}
+
+.input-container {
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#input {
+  text-align: center;
 }

@@ -1,4 +1,5 @@
-// High Card is a card game where each player draws a random card, and the player with the highest card wins.
+// High Card is a card game where each player
+// draws a random card, and the player with the highest card wins.
 
 // Get a random index ranging from 0 (inclusive) to max (exclusive).
 const getRandomIndex = (max) => Math.floor(Math.random() * max);
@@ -76,34 +77,31 @@ const makeDeck = () => {
   return newDeck;
 };
 
-const deck = shuffleCards(makeDeck());
+let deck = shuffleCards(makeDeck());
 
-// Player 1 starts first
-let playersTurn = 1;
-
-// Use let for player1Card object because player1Card will be reassigned
-let player1Card;
+const inputContainer = document.createElement('div');
+inputContainer.classList.add('input-container');
+document.body.appendChild(inputContainer);
 
 const player1Button = document.createElement('button');
 player1Button.innerText = 'Player 1 Draw';
-document.body.appendChild(player1Button);
-
-const player2Button = document.createElement('button');
-player2Button.innerText = 'Player 2 Draw';
-document.body.appendChild(player2Button);
+inputContainer.appendChild(player1Button);
 
 const inputNum = document.createElement('input');
 inputNum.setAttribute('id', 'input');
 inputNum.setAttribute('type', 'number');
 inputNum.setAttribute('min', '2');
 inputNum.setAttribute('max', '26');
-const cardsToBeDrawn = document.querySelector('#input');
-document.body.appendChild(inputNum);
+inputContainer.appendChild(inputNum);
+
+const player2Button = document.createElement('button');
+player2Button.innerText = 'Player 2 Draw';
+inputContainer.appendChild(player2Button);
 
 const gameInfo = document.createElement('div');
 gameInfo.classList.add('gameInfo');
 gameInfo.innerText = 'Its player 1 turn. Click to draw a card!';
-document.body.appendChild(gameInfo);
+inputContainer.appendChild(gameInfo);
 
 // Create a helper function for output to abstract complexity
 // of DOM manipulation away from game logic
@@ -111,28 +109,61 @@ const output = (message) => {
   gameInfo.innerText = message;
 };
 
-const createCard = (cardInfo) => {
-  const suit = document.createElement('div');
-  suit.classList.add('suit', cardInfo.colour);
-  suit.innerHTML = cardInfo.suitSymbol;
+const createCardFromArray = (playerHand, player) => {
+  const rankArray = [];
+  for (let i = 0; i < playerHand.length; i += 1) {
+    rankArray[i] = playerHand[i].rank;
+  }
+  const maxRank = Math.max(...rankArray);
+  const minRank = Math.min(...rankArray);
 
-  const name = document.createElement('div');
-  name.classList.add('name', cardInfo.colour);
-  name.innerText = cardInfo.displayName;
+  for (let j = 0; j < playerHand.length; j += 1) {
+    const suit = document.createElement('div');
+    suit.classList.add('suit', playerHand[j].colour);
+    suit.innerHTML = playerHand[j].suitSymbol;
 
-  const card = document.createElement('div');
-  card.classList.add('card');
+    const name = document.createElement('div');
+    name.classList.add('name', playerHand[j].colour);
+    name.innerText = playerHand[j].displayName;
 
-  card.appendChild(name);
-  card.appendChild(suit);
+    if (j === rankArray.indexOf(maxRank) || j === rankArray.indexOf(minRank)) {
+      const card = document.createElement('div');
+      card.classList.add('highlight');
 
-  return card;
+      card.appendChild(name);
+      card.appendChild(suit);
+
+      player.appendChild(card);
+    } else {
+      const card = document.createElement('div');
+      card.classList.add('card');
+
+      card.appendChild(name);
+      card.appendChild(suit);
+
+      player.appendChild(card);
+    }
+  }
 };
 
-let cardContainer;
-cardContainer = document.createElement('div');
+const cardContainer = document.createElement('div');
 cardContainer.classList.add('card-container');
-document.body.insertBefore(cardContainer, player1Button);
+const player1Container = document.createElement('div');
+player1Container.classList.add('player-1-hand');
+cardContainer.appendChild(player1Container);
+const player2Container = document.createElement('div');
+player2Container.classList.add('player-2-hand');
+cardContainer.appendChild(player2Container);
+document.body.insertBefore(cardContainer, inputContainer);
+
+// Player 1 starts first
+let playersTurn = 0;
+let player1Hand = [];
+let player2Hand = [];
+
+// Use let for player1Card object because player1Card will be reassigned
+let player1Card;
+let player2Card;
 
 const highestDiff = (playerHand) => {
   const rankArray = [];
@@ -145,68 +176,97 @@ const highestDiff = (playerHand) => {
   return max - min;
 };
 
+const reset = () => {
+  player1Hand = [];
+  player2Hand = [];
+  deck = shuffleCards(makeDeck());
+};
+
 const endGame = () => {
   // Determine and output winner
   if (highestDiff(player1Hand) > highestDiff(player2Hand)) {
     const winningDiff = highestDiff(player1Hand);
-    // player1Hand = [];
-    // player2Hand = [];
     output(`Player 1 wins, with a card difference of ${winningDiff}.`);
     gameInfo.innerHTML += '<br>Click to play again';
+    document.getElementById('input').disabled = false;
+    setTimeout(reset, 1000);
   } else if (highestDiff(player1Hand) < highestDiff(player2Hand)) {
     const winningDiff = highestDiff(player2Hand);
-    // player1Hand = [];
-    // player2Hand = [];
     output(`Player 2 wins, with a card difference of ${winningDiff}.`);
     gameInfo.innerHTML += '<br>Click to play again';
+    document.getElementById('input').disabled = false;
+    setTimeout(reset, 1000);
   } else {
-    // player1Hand = [];
-    // player2Hand = [];
     output('Tie!');
     gameInfo.innerHTML += '<br>Click to play again';
+    document.getElementById('input').disabled = false;
+    setTimeout(reset, 1000);
   }
 };
 
 const player1Click = () => {
-  if (playersTurn === 1) {
+  // eslint-disable-next-line prefer-const
+  const inputCards = document.getElementById('input');
+  // eslint-disable-next-line prefer-const
+  const cardsToBeDrawn = inputCards.value;
+  console.log(cardsToBeDrawn);
+
+  if (cardsToBeDrawn == 0) {
+    output('Input number of cards to be drawn');
+  } else if (playersTurn === 0) {
+    document.getElementById('input').disabled = true;
+    player1Container.innerText = '';
+    player2Container.innerText = '';
     // Pop player 1's card metadata from the deck
     for (let i = 0; i < cardsToBeDrawn; i += 1) {
       player1Card = deck.pop();
-      // Create card element from card metadata
-      const cardElement = createCard(player1Card);
-      // Empty cardContainer in case this is not the 1st round of gameplay
-      cardContainer.innerHTML = '';
-      // Append the card element to the card container
-      cardContainer.appendChild(cardElement);
+      player1Hand[i] = player1Card;
     }
+    createCardFromArray(player1Hand, player1Container);
     // Switch to player 2's turn
     playersTurn = 2;
-  } else {
-
+  } else if (playersTurn === 1) {
+    // Pop player 1's card metadata from the deck
+    for (let j = 0; j < cardsToBeDrawn; j += 1) {
+      player1Card = deck.pop();
+      player1Hand[j] = player1Card;
+    }
+    createCardFromArray(player1Hand, player1Container);
+    playersTurn = 0;
+    endGame();
   }
 };
 
 const player2Click = () => {
-  if (playersTurn === 2) {
+  // eslint-disable-next-line prefer-const
+  const inputCards = document.getElementById('input');
+  // eslint-disable-next-line prefer-const
+  const cardsToBeDrawn = inputCards.value;
+  console.log(cardsToBeDrawn);
+
+  if (cardsToBeDrawn == 0) {
+    output('Input number of cards to be drawn');
+  } else if (playersTurn === 0) {
+    document.getElementById('input').disabled = true;
+    player1Container.innerText = '';
+    player2Container.innerText = '';
     // Pop player 2's card metadata from the deck
-    const player2Card = deck.pop();
-
-    // Create card element from card metadata
-    const cardElement = createCard(player2Card);
-    // Append card element to card container
-    cardContainer.appendChild(cardElement);
-
+    for (let i = 0; i < cardsToBeDrawn; i += 1) {
+      player2Card = deck.pop();
+      player2Hand[i] = player2Card;
+    }
+    createCardFromArray(player2Hand, player2Container);
     // Switch to player 1's turn
     playersTurn = 1;
-
-    // Determine and output winner
-    if (player1Card.rank > player2Card.rank) {
-      output('Player 1 wins');
-    } else if (player1Card.rank < player2Card.rank) {
-      output('Player 2 wins');
-    } else {
-      output('Tie');
+  } else if (playersTurn === 2) {
+    // Pop player 2's card metadata from the deck
+    for (let j = 0; j < cardsToBeDrawn; j += 1) {
+      player2Card = deck.pop();
+      player2Hand[j] = player2Card;
     }
+    createCardFromArray(player2Hand, player2Container);
+    playersTurn = 0;
+    endGame();
   }
 };
 
