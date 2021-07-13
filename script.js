@@ -134,6 +134,39 @@ cardContainer = document.createElement('div');
 cardContainer.classList.add('card-container');
 document.body.insertBefore(cardContainer, player1Button);
 
+const highestDiff = (playerHand) => {
+  const rankArray = [];
+  for (let i = 0; i < playerHand.length; i += 1) {
+    rankArray[i] = playerHand[i].rank;
+  }
+  const max = Math.max(...rankArray);
+  const min = Math.min(...rankArray);
+
+  return max - min;
+};
+
+const endGame = () => {
+  // Determine and output winner
+  if (highestDiff(player1Hand) > highestDiff(player2Hand)) {
+    const winningDiff = highestDiff(player1Hand);
+    // player1Hand = [];
+    // player2Hand = [];
+    output(`Player 1 wins, with a card difference of ${winningDiff}.`);
+    gameInfo.innerHTML += '<br>Click to play again';
+  } else if (highestDiff(player1Hand) < highestDiff(player2Hand)) {
+    const winningDiff = highestDiff(player2Hand);
+    // player1Hand = [];
+    // player2Hand = [];
+    output(`Player 2 wins, with a card difference of ${winningDiff}.`);
+    gameInfo.innerHTML += '<br>Click to play again';
+  } else {
+    // player1Hand = [];
+    // player2Hand = [];
+    output('Tie!');
+    gameInfo.innerHTML += '<br>Click to play again';
+  }
+};
+
 const player1Click = () => {
   if (playersTurn === 1) {
     // Pop player 1's card metadata from the deck
