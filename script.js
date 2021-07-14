@@ -1,4 +1,5 @@
-// High Card is a card game where each player draws a random card, and the player with the highest card wins.
+// High Card is a card game where each player draws a random card,
+// and the player with the highest card wins.
 
 // Get a random index ranging from 0 (inclusive) to max (exclusive).
 const getRandomIndex = (max) => Math.floor(Math.random() * max);
