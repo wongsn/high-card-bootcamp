@@ -3,6 +3,9 @@
 ## Base
 Complete the entire High Card game as described in Module 1.5: High Card DOM.
 
+The following is a wireframe of our High Card UI. Game info will be in a big box on top, and there will be 2 buttons below for player 1 and 2 to draw cards respectively.
+!["Wireframe"](https://bootcamp.rocketacademy.co/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-MHpn6_lq7F3sPVKqyNy%2Fuploads%2Fgit-blob-cad1ae225a3ca19e0de559d9316223f77c2b711e%2Fbootcamp_-_wireframes_-_basic_dice_g%20(1)%20(1)%20(1)%20(1).png?alt=media)
+
 ## Comfortable
 ### High / Low Card
 The players can draw multiple cards each. The winner is the player who has the greatest difference in rank between the highest and lowest cards in his hand.
